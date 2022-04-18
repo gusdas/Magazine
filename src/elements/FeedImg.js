@@ -15,8 +15,8 @@ const Avata = (props) => {
 const Img = styled.img`
   ${(props) =>
     props.size === 'big'
-      ? { width: '480px', height: '360px' }
-      : { width: '120px', height: '90px' }}
+      ? { width: '100%', height: '270px' }
+      : { width: '180px', height: '90px', marginRigft: '1rem' }}
   overflow: 'hidden';
 `;
 export default Avata;

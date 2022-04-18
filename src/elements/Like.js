@@ -11,17 +11,17 @@ const Like = (props) => {
   };
   return (
     <React.Fragment>
-      {isLike ? (
+      {isLike === true ? (
         <StyledLike src='/images/redHeart.png' {...styles}></StyledLike>
       ) : (
-        <StyledLike src='/images/redHeart.png' {...styles}></StyledLike>
+        <StyledLike src='/images/emptyHeart.png' {...styles}></StyledLike>
       )}
     </React.Fragment>
   );
 };
 const StyledLike = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
 
   cursor: pointer;
 `;

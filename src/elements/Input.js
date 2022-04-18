@@ -27,7 +27,7 @@ const StyledInput = styled.input`
   font-size: 1rem;
 
   ::placeholder {
-    ${(props) => props.placeholder || 'hiff'}
+    ${(props) => props.placeholder}
   }
 
   :focus {

@@ -2,10 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 const FlexGrid = (props) => {
-  const { children } = props;
+  const { children, padding, hasChild, margin } = props;
+  const styles = {
+    padding: padding,
+    hasChild: hasChild,
+    margin: margin,
+  };
   return (
     <React.Fragment>
-      <StyledDiv>{children}</StyledDiv>
+      <StyledDiv {...styles}>{children}</StyledDiv>
     </React.Fragment>
   );
 };
@@ -13,12 +18,16 @@ const FlexGrid = (props) => {
 const StyledDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: red;
-  padding: 10px;
-  margin-bottom: 10px;
+  align-items: center;
+  padding: ${(props) => props.padding};
+  margin: ${(props) => props.margin};
+  background-color: white;
 
-  div:nth-child(n) {
-    margin: 0 10px;
+  position: relative;
+
+  box-sizing: border-box;
+  div:not(:first-child) {
+    margin-left: ${(props) => (props.hasChild ? '1rem' : '')};
   }
 `;
 export default FlexGrid;

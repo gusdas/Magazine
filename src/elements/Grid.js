@@ -1,27 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from './Button';
 
 const Grid = (props) => {
-  const { children } = props;
+  const { children, padding, height, hasChild, margin } = props;
+  const styles = {
+    padding: padding,
+    height: height,
+    hasChild: hasChild,
+    margin: margin,
+  };
+
   return (
     <React.Fragment>
-      <StyledDiv>
-        <Button width='5rem' height='5rem'></Button>
-        <Button width='5rem' height='5rem'>
-          회원가입
-        </Button>
-        <Button width='5rem' height='5rem'>
-          로그인
-        </Button>
-        {/* {children} */}
-      </StyledDiv>
+      <StyledDiv {...styles}>{children}</StyledDiv>
     </React.Fragment>
   );
 };
 
 const StyledDiv = styled.div`
-  background-color: red;
-  padding: 10px;
+  background-color: white;
+  padding: ${(props) => props.padding};
+
+  height: ${(props) => props.height};
+
+  margin: ${(props) => props.margin};
+  box-sizing: border-box;
 `;
+
 export default Grid;
