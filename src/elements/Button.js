@@ -1,7 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 const Button = (props) => {
-  const { width, height, bgColor = 'lightgray', bold, children } = props;
+  const {
+    width,
+    height,
+    bgColor = 'lightgray',
+    bold,
+    _onClick,
+    children,
+  } = props;
 
   const styles = {
     width: width,
@@ -12,7 +19,9 @@ const Button = (props) => {
 
   return (
     <React.Fragment>
-      <StyledButton {...styles}>{children}</StyledButton>
+      <StyledButton onClick={_onClick} {...styles}>
+        {children}
+      </StyledButton>
     </React.Fragment>
   );
 };

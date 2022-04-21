@@ -1,23 +1,28 @@
 import './App.css';
 import styled from 'styled-components';
+import React, { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
 
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import EditPage from './pages/EditPage';
 import FeedPage from './pages/FeedPage';
 import AlertPage from './pages/AlertPage';
+import Header from './organisms/Header';
 
-import { Route, Routes } from 'react-router-dom';
+import TestPage from './pages/TestPage';
 function App() {
   return (
     <Wrapper>
       <Container>
+        <Header></Header>
         <Routes>
           <Route element={<LoginPage />} path='/login' />
           <Route element={<RegisterPage />} path='/register' />
           <Route element={<FeedPage />} path='/' />
           <Route element={<EditPage />} path='/edit' />
           <Route element={<AlertPage />} path='/alert' />
+          <Route element={<TestPage />} path='/test' />
         </Routes>
       </Container>
     </Wrapper>

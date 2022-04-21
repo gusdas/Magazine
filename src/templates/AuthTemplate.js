@@ -6,7 +6,6 @@ const Auth = (props) => {
   const { type, children } = props;
   return (
     <React.Fragment>
-      <Header />
       <AuthArea type={type}></AuthArea>
     </React.Fragment>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Avata = (props) => {
+const FeedImg = (props) => {
   const { src, size = 'big' } = props;
 
   const styles = {
@@ -19,4 +19,4 @@ const Img = styled.img`
       : { width: '180px', height: '90px', marginRigft: '1rem' }}
   overflow: 'hidden';
 `;
-export default Avata;
+export default FeedImg;

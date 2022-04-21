@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 const Input = (props) => {
-  const { placeholder, title, children } = props;
+  const { placeholder, title, _ref, children } = props;
   const styles = {
     placeholder: placeholder,
   };
@@ -10,7 +10,9 @@ const Input = (props) => {
       <StyledLabel>
         {title}
 
-        <StyledInput {...styles}>{children}</StyledInput>
+        <StyledInput {...styles} ref={_ref}>
+          {children}
+        </StyledInput>
       </StyledLabel>
     </React.Fragment>
   );
