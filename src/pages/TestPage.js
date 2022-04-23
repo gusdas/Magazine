@@ -6,10 +6,19 @@ import FeedImg from '../elements/FeedImg';
 
 import { axiosFunc } from '../redux/modules/axios';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { actionCreators as PostAction } from '../redux/modules/post';
+
+import jwt_decode from 'jwt-decode';
 function TestPage(props) {
+  const dispatch = useDispatch();
+
+  const nextPage = useSelector((state) => state.post.nextPage);
+  const last = useSelector((state) => state.post.last);
+
   const fileInput = useRef('');
   const [img, setImg] = useState('');
-
+  const [sendImg, setSendImg] = useState('');
   const num = '2'; //게시물 id
 
   //파일선택
@@ -17,6 +26,7 @@ function TestPage(props) {
     const reader = new FileReader();
     const file = fileInput.current.files[0];
 
+    setSendImg(file);
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setImg(reader.result);
@@ -25,26 +35,33 @@ function TestPage(props) {
 
   //로그아웃
   const onLogout = async () => {
-    const result = await axiosFunc.logoutAxios();
-    console.log(result);
+    sessionStorage.removeItem('token');
   };
 
   //게시글 목록 전체 조회
   //현재 페이지 번호
   const onPosts = async () => {
-    const result = await axiosFunc.postsAxios(1);
-    console.log(result);
+    if (!last) {
+      // dispatch(PostAction.getPostsAPI(nextPage));
+    }
+    dispatch(PostAction.getPostsAPI());
   };
 
   //게시글 한개 조회
   const onPost = async (postId) => {
-    const result = await axiosFunc.postAxios(postId);
-    console.log(result);
+    const result = await axiosFunc.postAxios('2');
+
+    const a = 'data:image/png;base64,' + result;
+
+    setImg(a);
   };
 
   //게시물 추가
   const onAddData = async () => {
-    const result = await axiosFunc.postWriteAxios(img, '이미지 올라갔어요?');
+    const result = await axiosFunc.postWriteAxios(
+      sendImg,
+      '이미지 올라갔어요?'
+    );
     console.log(result);
     // const b = 'data:image/png;base64,' + result;
     // setImg(b);
@@ -81,6 +98,12 @@ function TestPage(props) {
     console.log(result);
   };
 
+  const onChkToken = async () => {
+    const token = sessionStorage.getItem('token');
+    const a = jwt_decode(token);
+    console.log(a);
+  };
+
   return (
     <Grid padding='10px'>
       <Grid margin='10px'>
@@ -104,17 +127,19 @@ function TestPage(props) {
         </Button>
       </Grid>
       <Grid margin='10px'>
-        <Button
-          bgColor='black'
-          _onClick={() => {
-            onAddData(num);
-          }}
-        >
-          게시물 추가
-        </Button>
+        <form encType='multipart/form-data'>
+          <Button
+            bgColor='black'
+            _onClick={() => {
+              onAddData();
+            }}
+          >
+            게시물 추가
+          </Button>
+          <input type='file' onChange={selectFile} ref={fileInput}></input>
+        </form>
       </Grid>
       <Grid>
-        <input type='file' onChange={selectFile} ref={fileInput}></input>
         <FeedImg src={img}></FeedImg>
       </Grid>
       <Grid margin='10px'>
@@ -157,6 +182,16 @@ function TestPage(props) {
           }}
         >
           로그아웃
+        </Button>
+      </Grid>
+      <Grid margin='10px'>
+        <Button
+          bgColor='black'
+          _onClick={() => {
+            onChkToken();
+          }}
+        >
+          토큰확인하기
         </Button>
       </Grid>
     </Grid>

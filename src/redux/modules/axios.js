@@ -1,10 +1,12 @@
 import axios from 'axios';
-//현웅 http://15.164.221.8/
-//수민 http://13.125.207.199/
+import { ip } from '../../common/ip';
 
 //인스턴스 생성
 const apiClicent = axios.create({
-  baseURL: 'http://15.164.221.8/api',
+  baseURL: ip,
+  // header:{
+  //   Content-Type: 'application/json'
+  // }
 });
 
 //------------------------사용자-----------------------//
@@ -44,7 +46,7 @@ const loginAxios = async (id, pw) => {
 
 //로그아웃
 const logoutAxios = async () => {
-  apiClicent.defaults.headers['Content-Type'] = 'application/json';
+  // apiClicent.defaults.headers['Content-Type'] = 'application/json';
   try {
     const res = await apiClicent.post('logout');
 
@@ -57,51 +59,56 @@ const logoutAxios = async () => {
 //------------------------게시글-----------------------//
 //게시글 목록 전체 조회
 const postsAxios = async (currentPage) => {
-  apiClicent.defaults.headers['Content-Type'] = 'application/json';
   apiClicent.defaults.headers.common['Authorization'] =
     sessionStorage.getItem('token');
+
   try {
     // const res = await apiClicent.get(`posts?page=${currentPage}&size=3`);
-    const res = await apiClicent.get(`posts`);
+    const res = await apiClicent.get('posts');
 
-    //res.data.posts.last --마지막데이터인지 boolean
-    //res.data.posts.content 배열
-    return res;
+    if (res.status === 200) {
+      const sendData = {
+        last: res.data.posts.last,
+        posts: res.data.posts.content,
+        pageNum: res.data.posts.number,
+      };
+      return sendData;
+    }
   } catch (error) {
     console.error(error);
   }
 };
 
-//게시글 한개 조회 //postId 숫자임
+//게시글 한개 조회
 const postAxios = async (postId) => {
-  apiClicent.defaults.headers['Content-Type'] = 'application/json';
+  // apiClicent.defaults.headers['Content-Type'] = 'application/json';
   apiClicent.defaults.headers.common['Authorization'] =
     sessionStorage.getItem('token');
 
   try {
     const res = await apiClicent.get(`posts/${postId}`);
-
     return res;
   } catch (error) {
     console.error(error);
   }
 };
 
-//게시글 작성 //postId 숫자임
+//게시글 작성
 const postWriteAxios = async (picture, content) => {
-  // apiClicent.defaults.headers['enctype'] = 'multipart/form-data';
-  apiClicent.defaults.headers['Content-Type'] =
-    'application/x-www-form-urlencoded';
+  apiClicent.defaults.headers['Content-Type'] = 'multipart/form-data';
   apiClicent.defaults.headers.common['Authorization'] =
     sessionStorage.getItem('token');
+  const frm = new FormData();
+  frm.append('picture', picture);
+  frm.append('content', content);
 
-  const string = { picture: picture, content: content };
-  const jsonData = JSON.stringify(string);
+  // const string = { picture: picture, content: content };
+  // const jsonData = JSON.stringify(string);
 
   try {
-    const res = await apiClicent.post(`posts`, jsonData);
+    const res = await apiClicent.post('posts', frm);
 
-    return res;
+    return res.data;
   } catch (error) {
     console.error(error);
   }
@@ -127,7 +134,7 @@ const postUpdateAxios = async (postId, picture, content) => {
 
 //게시글 삭제 postId 숫자임
 const postDeleteAxios = async (postId) => {
-  apiClicent.defaults.headers['Content-Type'] = 'application/json';
+  // apiClicent.defaults.headers['Content-Type'] = 'application/json';
   apiClicent.defaults.headers.common['Authorization'] =
     sessionStorage.getItem('token');
 
@@ -143,7 +150,7 @@ const postDeleteAxios = async (postId) => {
 //------------------------좋아요-----------------------//
 //좋아요 postId 숫자임
 const LikeAxios = async (postId) => {
-  apiClicent.defaults.headers['Content-Type'] = 'application/json';
+  // apiClicent.defaults.headers['Content-Type'] = 'application/json';
   apiClicent.defaults.headers.common['Authorization'] =
     sessionStorage.getItem('token');
 
@@ -158,7 +165,7 @@ const LikeAxios = async (postId) => {
 
 //좋아요삭제 postId 숫자임
 const LikeDeleteAxios = async (postId) => {
-  apiClicent.defaults.headers['Content-Type'] = 'application/json';
+  // apiClicent.defaults.headers['Content-Type'] = 'application/json';
   apiClicent.defaults.headers.common['Authorization'] =
     sessionStorage.getItem('token');
 

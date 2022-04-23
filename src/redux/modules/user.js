@@ -7,13 +7,13 @@ const LOG_OUT = 'LOG_OUT';
 const SET_USER = 'SET_USER';
 
 // action creators
-const logOut = createAction(LOG_OUT, (user) => ({ user }));
+const logOut = createAction(LOG_OUT, () => ({}));
 const setUser = createAction(SET_USER, (user) => ({ user }));
 
 // initialState
 const initialState = {
   user: null,
-  is_login: false,
+  isLogin: false,
 };
 
 // middleware actions
@@ -26,6 +26,7 @@ const signupAPI = (id, pw, nickname, navigate) => {
     }
   };
 };
+
 //로그인
 const loginAPI = (id, pw, navigate) => {
   return function (dispatch, getState) {
@@ -35,12 +36,23 @@ const loginAPI = (id, pw, navigate) => {
       dispatch(
         setUser({
           user: id,
-          is_login: true,
+          isLogin: true,
         })
       );
 
       navigate();
     }
+  };
+};
+
+//로그아웃
+const logoutAPI = (navigate) => {
+  return function (dispatch, getState) {
+    // const result = axiosFunc.loginAxios(id, pw);
+    sessionStorage.removeItem('token');
+
+    dispatch(logOut());
+    navigate();
   };
 };
 
@@ -50,12 +62,12 @@ export default handleActions(
     [SET_USER]: (state, action) =>
       produce(state, (draft) => {
         draft.user = action.payload.user;
-        draft.is_login = true;
+        draft.isLogin = true;
       }),
     [LOG_OUT]: (state, action) =>
       produce(state, (draft) => {
         draft.user = null;
-        draft.is_login = false;
+        draft.isLogin = false;
       }),
   },
   initialState
@@ -63,8 +75,7 @@ export default handleActions(
 
 // action creator export
 const actionCreators = {
-  logOut,
-  setUser,
+  logoutAPI,
   signupAPI,
   loginAPI,
 };

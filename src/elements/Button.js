@@ -8,7 +8,16 @@ const Button = (props) => {
     bold,
     _onClick,
     children,
+    isFloat,
   } = props;
+
+  if (isFloat) {
+    return (
+      <React.Fragment>
+        <FloatButton onClick={_onClick}>{children}</FloatButton>
+      </React.Fragment>
+    );
+  }
 
   const styles = {
     width: width,
@@ -41,5 +50,26 @@ const StyledButton = styled.div`
   outline: 'none';
   border: none;
   cursor: pointer;
+`;
+
+const FloatButton = styled.button`
+  width: 60px;
+  height: 60px;
+  background-color: #212121;
+  color: white;
+  box-sizing: border-box;
+  font-size: 30px;
+  font-weight: 800;
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  border: none;
+  text-align: center;
+  border-radius: 30px;
+  cursor: pointer;
+
+  /* @media screen and (min-width: 480px) {
+    right: 25%;
+  } */
 `;
 export default Button;

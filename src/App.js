@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import EditPage from './pages/EditPage';
+import ModifyPage from './pages/ModifyPage';
 import FeedPage from './pages/FeedPage';
 import AlertPage from './pages/AlertPage';
 import Header from './organisms/Header';
@@ -21,6 +22,7 @@ function App() {
           <Route element={<RegisterPage />} path='/register' />
           <Route element={<FeedPage />} path='/' />
           <Route element={<EditPage />} path='/edit' />
+          <Route element={<ModifyPage />} path='/modify/:postId' />
           <Route element={<AlertPage />} path='/alert' />
           <Route element={<TestPage />} path='/test' />
         </Routes>

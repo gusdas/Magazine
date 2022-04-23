@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionCreators as userActions } from '../redux/modules/user';
@@ -12,27 +12,45 @@ import FlexDiv from '../elements/FlexDiv';
 const Header = (props) => {
   const { children } = props;
   const dispatch = useDispatch();
-  const is_login = useSelector((state) => state.user.is_login);
-
-  const is_session = sessionStorage.getItem('token') ? true : false;
+  const isLogin = useSelector((state) => state.user.isLogin);
 
   const navigate = useNavigate();
+
+  const onLogout = () => {
+    dispatch(
+      userActions.logoutAPI(() => {
+        navigate('/');
+      })
+    );
+  };
   return (
     <React.Fragment>
-      {is_login && is_session ? (
+      {isLogin ? (
         <FlexGrid>
           <FlexGrid padding='1rem'>
-            <Button width='1rem' height='1rem'></Button>
+            <Button
+              width='1rem'
+              height='1rem'
+              _onClick={() => {
+                navigate(-1);
+              }}
+            ></Button>
           </FlexGrid>
           <FlexDiv>
             <FlexGrid hasChild='true' padding='1rem'>
-              <Button>내 정보</Button>
+              <Button
+                _onClick={() => {
+                  navigate('/test');
+                }}
+              >
+                내 정보
+              </Button>
 
               <Button>알림</Button>
 
               <Button
                 _onClick={() => {
-                  dispatch(userActions.logoutFB());
+                  onLogout();
                 }}
               >
                 로그아웃

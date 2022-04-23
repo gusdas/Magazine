@@ -19,7 +19,7 @@ const textMap = {
 function Auth(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { type = 'register' } = props;
+  const { type } = props;
   const title = textMap[type];
 
   const userId = useRef();
