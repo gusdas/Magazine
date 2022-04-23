@@ -4,9 +4,6 @@ import { ip } from '../../common/ip';
 //인스턴스 생성
 const apiClicent = axios.create({
   baseURL: ip,
-  // header:{
-  //   Content-Type: 'application/json'
-  // }
 });
 
 //------------------------사용자-----------------------//
@@ -102,29 +99,25 @@ const postWriteAxios = async (picture, content) => {
   frm.append('picture', picture);
   frm.append('content', content);
 
-  // const string = { picture: picture, content: content };
-  // const jsonData = JSON.stringify(string);
-
   try {
     const res = await apiClicent.post('posts', frm);
-
     return res.data;
   } catch (error) {
     console.error(error);
   }
 };
 
-//게시글 수정 postId 숫자임
+//게시글 수정
 const postUpdateAxios = async (postId, picture, content) => {
   apiClicent.defaults.headers['Content-Type'] = 'multipart/form-data';
   apiClicent.defaults.headers.common['Authorization'] =
     sessionStorage.getItem('token');
-
-  const string = { picture: picture, content: content };
-  const jsonData = JSON.stringify(string);
+  const frm = new FormData();
+  frm.append('picture', picture);
+  frm.append('content', content);
 
   try {
-    const res = await apiClicent.patch(`posts/${postId}`, jsonData);
+    const res = await apiClicent.patch(`posts/${postId}`, frm);
 
     return res;
   } catch (error) {
@@ -132,14 +125,14 @@ const postUpdateAxios = async (postId, picture, content) => {
   }
 };
 
-//게시글 삭제 postId 숫자임
+//게시글 삭제
 const postDeleteAxios = async (postId) => {
   // apiClicent.defaults.headers['Content-Type'] = 'application/json';
   apiClicent.defaults.headers.common['Authorization'] =
     sessionStorage.getItem('token');
 
   try {
-    const res = await apiClicent.delete(`posts/${postId}`);
+    const res = await apiClicent.post(`posts/${postId}/delete`);
 
     return res;
   } catch (error) {
@@ -148,7 +141,7 @@ const postDeleteAxios = async (postId) => {
 };
 
 //------------------------좋아요-----------------------//
-//좋아요 postId 숫자임
+//좋아요
 const LikeAxios = async (postId) => {
   // apiClicent.defaults.headers['Content-Type'] = 'application/json';
   apiClicent.defaults.headers.common['Authorization'] =
@@ -163,14 +156,14 @@ const LikeAxios = async (postId) => {
   }
 };
 
-//좋아요삭제 postId 숫자임
+//좋아요삭제
 const LikeDeleteAxios = async (postId) => {
   // apiClicent.defaults.headers['Content-Type'] = 'application/json';
   apiClicent.defaults.headers.common['Authorization'] =
     sessionStorage.getItem('token');
 
   try {
-    const res = await apiClicent.delete(`posts/${postId}/like`);
+    const res = await apiClicent.post(`posts/${postId}/like/delete`);
 
     return res;
   } catch (error) {

@@ -6,7 +6,17 @@ import Text from '../elements/Text';
 import Button from '../elements/Button';
 import AvataImg from '../elements/AvataImg';
 
-function FeedHeader({ nickname, time, userId }) {
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { actionCreators as PostAction } from '../redux/modules/post';
+
+function FeedHeader({ nickname, time, userId, postId }) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleDelete = (pageId) => {
+    dispatch(PostAction.deletePostAPI(pageId));
+  };
+
   return (
     <FlexGrid margin='1rem 0 0 0' padding='1rem'>
       <FlexDiv>
@@ -18,14 +28,25 @@ function FeedHeader({ nickname, time, userId }) {
       <FlexDiv>
         <Text margin='0.5rem'>{time}</Text>
         <Button
-          width='2rem;'
+          width='1rem;'
           height='0.1rem'
           bold='bold'
-          onClick={() => {
-            // navigate(`/modify/${postId}`);
+          _onClick={() => {
+            navigate(`/modify/${postId}`);
           }}
         >
           수정
+        </Button>
+        <Button
+          margin='0 0 0 10px'
+          width='1rem;'
+          height='0.1rem'
+          bold='bold'
+          _onClick={() => {
+            handleDelete(postId);
+          }}
+        >
+          삭제
         </Button>
       </FlexDiv>
     </FlexGrid>

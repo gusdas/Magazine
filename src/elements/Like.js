@@ -4,7 +4,7 @@ import styled from 'styled-components';
 // import redHeart from '/images/redHeart.png';
 
 const Like = (props) => {
-  const { isLike = false } = props;
+  const { isLike = false, _onClick } = props;
 
   const styles = {
     isLike: isLike,
@@ -12,9 +12,17 @@ const Like = (props) => {
   return (
     <React.Fragment>
       {isLike === true ? (
-        <StyledLike src='/images/redHeart.png' {...styles}></StyledLike>
+        <StyledLike
+          onClick={_onClick}
+          src='/images/redHeart.png'
+          {...styles}
+        ></StyledLike>
       ) : (
-        <StyledLike src='/images/emptyHeart.png' {...styles}></StyledLike>
+        <StyledLike
+          onClick={_onClick}
+          src='/images/emptyHeart.png'
+          {...styles}
+        ></StyledLike>
       )}
     </React.Fragment>
   );

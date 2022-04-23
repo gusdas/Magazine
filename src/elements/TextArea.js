@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 const TextArea = (props) => {
-  const { placeholder, title, children, _ref } = props;
+  const { placeholder, title, children, _onChange, _value } = props;
   const styles = {
     placeholder: placeholder,
   };
@@ -9,7 +9,7 @@ const TextArea = (props) => {
     <React.Fragment>
       <StyledLabel>
         {title}
-        <StyledArea ref={_ref} {...styles}>
+        <StyledArea value={_value} onChange={_onChange} {...styles}>
           {children}
         </StyledArea>
       </StyledLabel>

@@ -11,27 +11,31 @@ import TextArea from '../elements/TextArea';
 import Button from '../elements/Button';
 
 function EditArea() {
-  const content = useRef('');
   const fileInput = useRef('');
+  const [content, setContent] = useState('');
   const [sendImg, setSendImg] = useState('');
   const [img, setImg] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const postId = useParams().postId;
   const [post, setPost] = useState('');
+
   useEffect(() => {
-    axiosFunc.postAxios(postId).then(function (res) {
-      setPost(res.data);
-      const preview = 'data:image/png;base64,' + res.data.picture;
+    if (postId) {
+      axiosFunc.postAxios(postId).then(function (res) {
+        const preview = 'data:image/png;base64,' + res.data.picture;
+        var file = dataURLtoFile(
+          'data:image/png;base64,' + res.data.picture,
+          '수지.png'
+        );
 
-      setSendImg(res.data.picture);
-      setImg(preview);
-      fileInput.current.file[0] = res.data.picture;
-      console.log(content.current);
-    });
-  }, []);
-
-  console.log(post);
+        setPost(res.data);
+        setSendImg(file);
+        setImg(preview);
+        setContent(res.data.content);
+      });
+    }
+  }, [setPost]);
 
   //파일선택
   const selectFile = () => {
@@ -45,20 +49,33 @@ function EditArea() {
     };
   };
 
+  function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
+  }
+
   const onSend = () => {
     if (postId) {
-      dispatch(
-        postAction.modifyPostAPI(post.postId, sendImg, content.current.value)
-      );
+      dispatch(postAction.modifyPostAPI(postId, sendImg, content));
     } else {
-      dispatch(
-        postAction.addPostAPI(post.postId, sendImg, content.current.value)
-      );
+      dispatch(postAction.addPostAPI(sendImg, content));
     }
 
     navigate('/');
   };
 
+  const handleContent = (e) => {
+    setContent(e.target.value);
+  };
   return (
     <React.Fragment>
       <Grid height='calc(100% - 101px)'>
@@ -84,7 +101,8 @@ function EditArea() {
 
         <Grid padding='1rem'>
           <TextArea
-            _ref={content}
+            _onChange={handleContent}
+            _value={content}
             title='게시글 내용'
             placeholder={postId ? '게시글 수정' : '게시글 작성'}
           ></TextArea>

@@ -28,6 +28,7 @@ function FeedTemplate(props) {
       setId(username);
     }
   }, []);
+
   console.log(posts);
   return (
     <React.Fragment>
@@ -47,12 +48,14 @@ function FeedTemplate(props) {
             nickname={l.nickname}
             time={l.lastModifiedAt}
             userId={id}
+            postId={l.postId}
           ></FeedHeader>
           <FeedArea
             content={l.content}
             isLike={l.like}
             likeCnt={l.likeCount}
             picture={l.picture}
+            postId={l.postId}
           ></FeedArea>
         </div>
       ))}

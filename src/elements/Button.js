@@ -9,6 +9,7 @@ const Button = (props) => {
     _onClick,
     children,
     isFloat,
+    margin,
   } = props;
 
   if (isFloat) {
@@ -24,6 +25,7 @@ const Button = (props) => {
     height: height,
     bgColor: bgColor,
     bold: bold,
+    margin: margin,
   };
 
   return (
@@ -44,6 +46,7 @@ const StyledButton = styled.div`
   height: ${(props) => props.height};
   background-color: ${(props) => props.bgColor};
   font-weight: ${(props) => props.bold};
+  margin: ${(props) => props.margin};
   ${(props) =>
     props.bgColor === 'lightgray' ? { color: 'black' } : { color: 'white' }}
 

@@ -5,15 +5,37 @@ import { axiosFunc } from './axios';
 // actions
 const ADD_POST = 'ADD_POST';
 const SET_POST = 'SET_POST';
-
+const UPDATE_POST = 'UPDATE_POST';
+const DELETE_POST = 'DELETE_POST';
+const LIKE_POST = 'LIKE_POST';
+const LIKE_DELETE_POST = 'LIKE_DELETE_POST';
 // action creators
 const addPost = createAction(ADD_POST, (post) => ({ post }));
+
 const setPost = createAction(SET_POST, (posts, last, nextPage) => ({
   posts,
   last,
   nextPage,
 }));
 
+const updatePost = createAction(UPDATE_POST, (postId, post) => ({
+  postId,
+  post,
+}));
+
+const deletePost = createAction(DELETE_POST, (postId) => ({
+  postId,
+}));
+
+const likePost = createAction(LIKE_POST, (postId, isLike) => ({
+  postId,
+  isLike,
+}));
+
+const likeDeletePost = createAction(LIKE_DELETE_POST, (postId, isLike) => ({
+  postId,
+  isLike,
+}));
 // initialState
 const initialState = {
   posts: [],
@@ -60,13 +82,50 @@ const addPostAPI = (picture, content) => {
 const modifyPostAPI = (postId, picture, content) => {
   return async function (dispatch, getState) {
     const result = await axiosFunc.postUpdateAxios(postId, picture, content);
-    console.log(result);
 
     if (result) {
-      dispatch(addPost(result));
+      dispatch(updatePost(postId, result.data));
     }
   };
 };
+
+//포스트 삭제하기
+const deletePostAPI = (postId) => {
+  return async function (dispatch, getState) {
+    const result = await axiosFunc.postDeleteAxios(postId);
+
+    if (result) {
+      dispatch(deletePost(postId));
+    }
+  };
+};
+
+//포스트 좋아요
+const likePostAPI = (postId, isLike) => {
+  return async function (dispatch, getState) {
+    const result = await axiosFunc.LikeAxios(postId);
+
+    console.log(result);
+
+    if (result) {
+      dispatch(likePost(postId, isLike));
+    }
+  };
+};
+
+//포스트 좋아요삭제
+const likeDeletePostAPI = (postId, isLike) => {
+  return async function (dispatch, getState) {
+    const result = await axiosFunc.LikeDeleteAxios(postId);
+
+    console.log(result);
+
+    if (result) {
+      dispatch(likeDeletePost(postId, isLike));
+    }
+  };
+};
+
 // reducer
 export default handleActions(
   {
@@ -80,6 +139,41 @@ export default handleActions(
       produce(state, (draft) => {
         draft.posts.push(action.payload.post);
       }),
+    [UPDATE_POST]: (state, action) =>
+      produce(state, (draft) => {
+        const idx = draft.posts.findIndex(
+          (p) => p.postId === parseInt(action.payload.postId)
+        );
+
+        draft.posts[idx] = { ...draft.posts[idx], ...action.payload.post };
+      }),
+
+    [DELETE_POST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.posts = draft.posts.filter(
+          (p) => p.postId !== parseInt(action.payload.postId)
+        );
+      }),
+
+    [LIKE_POST]: (state, action) =>
+      produce(state, (draft) => {
+        const idx = draft.posts.findIndex(
+          (p) => p.postId === parseInt(action.payload.postId)
+        );
+
+        draft.posts[idx].like = action.payload.isLike;
+        draft.posts[idx].likeCount = draft.posts[idx].likeCount + 1;
+      }),
+
+    [LIKE_DELETE_POST]: (state, action) =>
+      produce(state, (draft) => {
+        const idx = draft.posts.findIndex(
+          (p) => p.postId === parseInt(action.payload.postId)
+        );
+
+        draft.posts[idx].like = action.payload.isLike;
+        draft.posts[idx].likeCount = draft.posts[idx].likeCount - 1;
+      }),
   },
   initialState
 );
@@ -89,6 +183,10 @@ const actionCreators = {
   getPostsAPI,
   getPostAPI,
   addPostAPI,
+  modifyPostAPI,
+  deletePostAPI,
+  likePostAPI,
+  likeDeletePostAPI,
 };
 
 export { actionCreators };

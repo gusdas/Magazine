@@ -56,9 +56,9 @@ const Container = styled.div`
     width: 100vw;
     height: 100vh;
     padding: 0;
-  }
+  /* } */
   ::-webkit-scrollbar {
     display: none;
-  } */
+  }
 `;
 export default App;

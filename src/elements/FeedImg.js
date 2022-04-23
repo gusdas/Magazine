@@ -15,7 +15,7 @@ const FeedImg = (props) => {
 const Img = styled.img`
   ${(props) =>
     props.size === 'big'
-      ? { width: '100%', height: '270px' }
+      ? { width: '100%', height: ' 100%' }
       : { width: '180px', height: '90px', marginRigft: '1rem' }}
   overflow: 'hidden';
 `;
