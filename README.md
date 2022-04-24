@@ -149,5 +149,3 @@ dataURLtoFile(
 ```
 
 
-
-[전체코드 보러가기](https://github.com/gusdas/Magazine)
