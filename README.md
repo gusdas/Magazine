@@ -1,13 +1,9 @@
 ![](https://velog.velcdn.com/images/hongdol/post/a32fca72-8df6-46c7-a168-1e2caddf8a8d/image.png)
 
-# 이번주 내용
 와이어 프레임과 구현해야할 기능 요구 사항을 만족한 인스타그램 비슷한 사이트를 만드는 것이다. 
 
-다음 단계로 구성되어있다. 
 LV1 와이어프레임과 기능 구현
 LV2 백 엔드와 연동 API 서버 통신
-LV3 프로젝트 최적화(코드 스플리팅, 레이지 로딩)
-LV4 Typescript 적용하기
 
 # 배운 내용
 1. POST MAN Mock API서버에 대해 배웠고 서버가 아직 완성히 안됐을때 API문서를 토대로 가짜서버를 만들고 통신했다. 
