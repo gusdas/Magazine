@@ -10,8 +10,8 @@ LV3 프로젝트 최적화(코드 스플리팅, 레이지 로딩)
 LV4 Typescript 적용하기
 
 # 배운 내용
-1. POST MAN Mock API서버에 대해 배웠고 서버가 아직 완성히 안됐을때 API문서를 토대로 가짜서버를 만들고 통신했다. 
-2. Axios 사용법
+### 1. POST MAN Mock API서버에 대해 배웠고 서버가 아직 완성히 안됐을때 API문서를 토대로 가짜서버를 만들고 통신했다. 
+### 2. Axios 사용법
 Axios를 Instance로 만들고 모듈화를 하였다.
 
 axios.js
@@ -70,7 +70,7 @@ const loginAPI = (id, pw, navigate) => {
 클라이언트에서 authorization을 가져올 수 있음
 허용하지 않으면 기본 헤더값만 가져올 수 있음
 
-3. JWT 토큰으로 로그인하고 토큰의 데이터 확인하는 법
+### 3. JWT 토큰으로 로그인하고 토큰의 데이터 확인하는 법
 
 ```js
 
@@ -89,7 +89,7 @@ const postAxios = async (postId) => {
 };
 ```
 
-4. 이미지를 multipart/form-data로 서버에 보내서 저장하고 받아오기
+### 4. 이미지를 multipart/form-data로 서버에 보내서 저장하고 받아오기
 ```js
   //파일선택
   const selectFile = () => {
@@ -128,7 +128,7 @@ const postWriteAxios = async (picture, content) => {
 
 
 
-5. 이미지 binaryString을 다시 File객체로 만들기
+### 5. 이미지 binaryString을 다시 File객체로 만들기
 서버에서 "/9j/4AAQSkZJRg..." 이런식으로 binaryString을 보내고 있고
 우리가 다시 img태그에 넣으려면 "data:image/jpeg;base64," 앞에 이걸 붙여야 된다.
 > data:image/jpeg;base64,/9j/4AAQSkZJRg...
@@ -155,6 +155,5 @@ dataURLtoFile(
     return new File([u8arr], filename, { type: mime });
   }
 ```
-
 
 
