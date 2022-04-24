@@ -1,70 +1,157 @@
-# Getting Started with Create React App
+![](https://velog.velcdn.com/images/hongdol/post/a32fca72-8df6-46c7-a168-1e2caddf8a8d/image.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 이번주 내용
+와이어 프레임과 구현해야할 기능 요구 사항을 만족한 인스타그램 비슷한 사이트를 만드는 것이다. 
 
-## Available Scripts
+다음 단계로 구성되어있다. 
+LV1 와이어프레임과 기능 구현
+LV2 백 엔드와 연동 API 서버 통신
+LV3 프로젝트 최적화(코드 스플리팅, 레이지 로딩)
+LV4 Typescript 적용하기
 
-In the project directory, you can run:
+# 배운 내용
+1. POST MAN Mock API서버에 대해 배웠고 서버가 아직 완성히 안됐을때 API문서를 토대로 가짜서버를 만들고 통신했다. 
+2. Axios 사용법
+Axios를 Instance로 만들고 모듈화를 하였다.
 
-### `yarn start`
+axios.js
+```js
+import axios from 'axios';
+import { ip } from '../../common/ip';
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+//인스턴스 생성
+const apiClicent = axios.create({
+  baseURL: ip,
+});
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+ //로그인
+const loginAxios = async (id, pw) => {
+  const string = { username: id, pw: pw };
+  const jsonData = JSON.stringify(string);
+  apiClicent.defaults.headers['Content-Type'] = 'application/json';
+  try {
+    const res = await apiClicent.post('login', jsonData);
 
-### `yarn test`
+    if (res.status === 200) {
+      // 서버에서 CORS설정과 headers에 authorization을 허용해야 
+      // 클라이언트에서 authorization을 가져올 수 있음 
+      // 허용하지 않으면 기본 헤더값만 가져올 수 있음
+      sessionStorage.setItem('token', res.headers.authorization);
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error(error);
+    alert('로그인 실패');
+  }
+};
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+login하는 미들웨어
+```js
+//로그인
+const loginAPI = (id, pw, navigate) => {
+  return async function (dispatch, getState) {
+    const result = await axiosFunc.loginAxios(id, pw);
+    if (result) {
+      dispatch(
+        setUser({
+          user: id,
+          isLogin: true,
+        })
+      );
+      navigate();
+    }
+  };
+};
 
-### `yarn build`
+```
+3. JWT 토큰으로 로그인하고 토큰의 데이터 확인하는 법
+헤더에 'Aut
+```js
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+//게시글 한개 조회
+const postAxios = async (postId) => {
+  apiClicent.defaults.headers.common['Authorization'] =
+    sessionStorage.getItem('token');
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  try {
+    const res = await apiClicent.get(`posts/${postId}`);
+    return res;
+  } catch (error) {
+    console.error(error);
+    alert('조회 실패');
+  }
+};
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. 이미지를 multipart/form-data로 서버에 보내서 저장하고 받아오기
+```js
+  //파일선택
+  const selectFile = () => {
+    const reader = new FileReader();
+    const file = fileInput.current.files[0];
 
-### `yarn eject`
+    setSendImg(file); //서버에 보낼 값 파일객체를 보내야함
+    //(서버 설정이 파일객체로 되어있음)
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImg(reader.result); //미리보기 img태그에 넣는 값
+    };
+  };
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```js
+//게시글 작성
+const postWriteAxios = async (picture, content) => {
+  apiClicent.defaults.headers['Content-Type'] = 'multipart/form-data';
+  apiClicent.defaults.headers.common['Authorization'] =
+    sessionStorage.getItem('token');
+  const frm = new FormData();
+  frm.append('picture', picture);
+  frm.append('content', content);
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  try {
+    const res = await apiClicent.post('posts', frm);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    alert('작성 실패');
+  }
+};
+```
+  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+5. 이미지 binaryString을 다시 File객체로 만들기
+서버에서 "/9j/4AAQSkZJRg..." 이런식으로 binaryString을 보내고 있고
+우리가 다시 img태그에 넣으려면 "data:image/jpeg;base64," 앞에 이걸 붙여야 된다.
+> data:image/jpeg;base64,/9j/4AAQSkZJRg...
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```js
+dataURLtoFile(
+          `data:image/png;base64,${res.data.picture}`,
+          '수지.png'
+        );
 
-### Code Splitting
+//File객체로 바꿔주는 코드
+ function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
 
-### Analyzing the Bundle Size
+    return new File([u8arr], filename, { type: mime });
+  }
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[전체코드 보러가기](https://github.com/gusdas/Magazine)
