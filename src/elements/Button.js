@@ -58,14 +58,14 @@ const StyledButton = styled.div`
 const FloatButton = styled.button`
   width: 60px;
   height: 60px;
-  background-color: #212121;
+  background-color: rgba(33, 33, 33, 0.8);
   color: white;
   box-sizing: border-box;
   font-size: 30px;
   font-weight: 800;
-  position: absolute;
-  bottom: 5%;
-  right: 5%;
+  position: sticky;
+  bottom: 3%;
+  left: 82%;
   border: none;
   text-align: center;
   border-radius: 30px;

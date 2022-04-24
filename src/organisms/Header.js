@@ -13,7 +13,7 @@ const Header = (props) => {
   const { children } = props;
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.user.isLogin);
-
+  const isSession = sessionStorage.getItem('token');
   const navigate = useNavigate();
 
   const onLogout = () => {
@@ -25,7 +25,7 @@ const Header = (props) => {
   };
   return (
     <React.Fragment>
-      {isLogin ? (
+      {isLogin || isSession ? (
         <FlexGrid>
           <FlexGrid padding='1rem'>
             <Button

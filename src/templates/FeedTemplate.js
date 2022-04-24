@@ -8,14 +8,15 @@ import Button from '../elements/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators as PostAction } from '../redux/modules/post';
 import { useNavigate } from 'react-router-dom';
-function FeedTemplate(props) {
+
+import axios from 'axios';
+function FeedTemplate() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [id, setId] = useState('');
-
+  const last = useSelector((state) => state.post.last);
   const posts = useSelector((state) => state.post.posts);
   const currentPage = useSelector((state) => state.post.nextPage);
-  const last = useSelector((state) => state.post.last);
 
   useEffect(() => {
     if (!last) {
@@ -27,9 +28,19 @@ function FeedTemplate(props) {
       const { username } = jwt_decode(token);
       setId(username);
     }
-  }, []);
+  }, [posts]);
 
-  console.log(posts);
+  // const [post, setPost] = useState('');
+  // useEffect(() => {
+  //   const getPost = async () => {
+  //     const { data } = await axios.get('http://146.56.187.171/api/posts');
+  //     setPost(data.rows);
+  //   };
+  //   getPost();
+  //   return () => {};
+  // }, []);
+  // console.log(post);
+
   return (
     <React.Fragment>
       <button

@@ -25,7 +25,7 @@ function EditArea() {
       axiosFunc.postAxios(postId).then(function (res) {
         const preview = 'data:image/png;base64,' + res.data.picture;
         var file = dataURLtoFile(
-          'data:image/png;base64,' + res.data.picture,
+          `data:image/png;base64,${res.data.picture}`,
           '수지.png'
         );
 

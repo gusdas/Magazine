@@ -21,6 +21,7 @@ const registerAxios = async (id, pw, nickname) => {
     }
   } catch (error) {
     console.error(error);
+    alert('회원가입 실패');
   }
 };
 
@@ -31,13 +32,18 @@ const loginAxios = async (id, pw) => {
   apiClicent.defaults.headers['Content-Type'] = 'application/json';
   try {
     const res = await apiClicent.post('login', jsonData);
-
+    console.log(res);
     if (res.status === 200) {
+      // 서버에서 Access-Control-Expose-Headers: Authorization 허용해야
+      // 클라이언트에서 authorization을 가져올 수 있음
+      // 허용하지 않으면 기본 헤더값만 가져올 수 있음
       sessionStorage.setItem('token', res.headers.authorization);
       return true;
     }
+    return false;
   } catch (error) {
     console.error(error);
+    alert('로그인 실패');
   }
 };
 
@@ -50,6 +56,7 @@ const logoutAxios = async () => {
     return res;
   } catch (error) {
     console.error(error);
+    alert('로그아웃 실패');
   }
 };
 
@@ -62,7 +69,7 @@ const postsAxios = async (currentPage) => {
   try {
     // const res = await apiClicent.get(`posts?page=${currentPage}&size=3`);
     const res = await apiClicent.get('posts');
-
+    console.log(res);
     if (res.status === 200) {
       const sendData = {
         last: res.data.posts.last,
@@ -73,6 +80,7 @@ const postsAxios = async (currentPage) => {
     }
   } catch (error) {
     console.error(error);
+    alert('조회 실패');
   }
 };
 
@@ -87,6 +95,7 @@ const postAxios = async (postId) => {
     return res;
   } catch (error) {
     console.error(error);
+    alert('조회 실패');
   }
 };
 
@@ -104,6 +113,7 @@ const postWriteAxios = async (picture, content) => {
     return res.data;
   } catch (error) {
     console.error(error);
+    alert('작성 실패');
   }
 };
 
@@ -122,6 +132,7 @@ const postUpdateAxios = async (postId, picture, content) => {
     return res;
   } catch (error) {
     console.error(error);
+    alert('수정 실패');
   }
 };
 
@@ -137,6 +148,7 @@ const postDeleteAxios = async (postId) => {
     return res;
   } catch (error) {
     console.error(error);
+    alert('삭제 실패');
   }
 };
 
@@ -153,6 +165,7 @@ const LikeAxios = async (postId) => {
     return res;
   } catch (error) {
     console.error(error);
+    alert('좋아요 실패');
   }
 };
 
@@ -168,6 +181,7 @@ const LikeDeleteAxios = async (postId) => {
     return res;
   } catch (error) {
     console.error(error);
+    alert('좋아요 실패');
   }
 };
 

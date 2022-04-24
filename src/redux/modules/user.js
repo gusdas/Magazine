@@ -19,8 +19,8 @@ const initialState = {
 // middleware actions
 //회원가입
 const signupAPI = (id, pw, nickname, navigate) => {
-  return function (dispatch, getState) {
-    const result = axiosFunc.registerAxios(id, pw, nickname);
+  return async function (dispatch, getState) {
+    const result = await axiosFunc.registerAxios(id, pw, nickname);
     if (result) {
       navigate();
     }
@@ -29,9 +29,8 @@ const signupAPI = (id, pw, nickname, navigate) => {
 
 //로그인
 const loginAPI = (id, pw, navigate) => {
-  return function (dispatch, getState) {
-    const result = axiosFunc.loginAxios(id, pw);
-
+  return async function (dispatch, getState) {
+    const result = await axiosFunc.loginAxios(id, pw);
     if (result) {
       dispatch(
         setUser({
@@ -39,7 +38,6 @@ const loginAPI = (id, pw, navigate) => {
           isLogin: true,
         })
       );
-
       navigate();
     }
   };
@@ -50,7 +48,7 @@ const logoutAPI = (navigate) => {
   return function (dispatch, getState) {
     // const result = axiosFunc.loginAxios(id, pw);
     sessionStorage.removeItem('token');
-
+    axiosFunc.logoutAxios();
     dispatch(logOut());
     navigate();
   };
