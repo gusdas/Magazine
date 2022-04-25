@@ -1,7 +1,7 @@
 import axios from 'axios';
-// import { ip } from '../../common/ip';
+import { ip } from '../../common/ip';
 
-const ip = sessionStorage.getItem('ip');
+// const ip = sessionStorage.getItem('ip');
 
 //인스턴스 생성
 const apiClicent = axios.create({

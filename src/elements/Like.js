@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const Like = (props) => {
   const { isLike = false, _onClick } = props;
-  const [like, setLike] = useState('');
+  const [like, setLike] = useState();
 
   useEffect(() => {
     setLike(isLike);

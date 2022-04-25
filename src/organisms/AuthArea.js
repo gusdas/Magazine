@@ -12,10 +12,12 @@ import { actionCreators as UserAction } from '../redux/modules/user';
 import { axiosFunc } from '../redux/modules/axios';
 
 import { useNavigate } from 'react-router-dom';
+
 const textMap = {
   login: '로그인',
   register: '회원가입',
 };
+
 function Auth(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -90,7 +92,7 @@ function Auth(props) {
           handleIPCheck();
         }}
       >
-        꼭 IP입력 먼저 하고 누르기
+        꼭 IP입력 먼저 하고 누르고 새로고침하면 IP세팅됌
       </Button>
       <div>입력된 값 : {userIP}</div>
       <Grid height='calc(100% - 5.35rem)' padding='1rem'>
