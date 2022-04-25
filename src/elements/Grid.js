@@ -27,4 +27,5 @@ const StyledDiv = styled.div`
   box-sizing: border-box;
 `;
 
-export default Grid;
+// export default Grid;
+export default React.memo(Grid);

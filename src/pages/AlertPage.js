@@ -10,4 +10,5 @@ function AlertPage(props) {
   );
 }
 
-export default AlertPage;
+// export default AlertPage;
+export default React.memo(AlertPage);

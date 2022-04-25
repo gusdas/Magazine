@@ -61,4 +61,5 @@ const Container = styled.div`
     display: none;
   }
 `;
-export default App;
+// export default App;
+export default React.memo(App);

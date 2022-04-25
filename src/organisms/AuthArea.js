@@ -26,7 +26,8 @@ function Auth(props) {
   const pw = useRef();
   const userName = useRef();
   const checkPw = useRef();
-
+  const IP = useRef();
+  const [userIP, setUserIP] = useState(sessionStorage.getItem('ip'));
   const onLogin = () => {
     if (userId.current.value === '' || pw.current.value === '') {
       window.alert('아이디, 패스워드를 모두 입력해주세요!');
@@ -72,8 +73,26 @@ function Auth(props) {
     );
   };
 
+  const handleIPCheck = () => {
+    sessionStorage.setItem('ip', IP.current.value);
+    setUserIP(IP.current.value);
+  };
   return (
     <React.Fragment>
+      <Input
+        title='IP'
+        placeholder='IP입력(http://00.00.00.00/api)'
+        _ref={IP}
+      ></Input>
+      <Button
+        bgColor='black'
+        _onClick={() => {
+          handleIPCheck();
+        }}
+      >
+        꼭 IP입력 먼저 하고 누르기
+      </Button>
+      <div>입력된 값 : {userIP}</div>
       <Grid height='calc(100% - 5.35rem)' padding='1rem'>
         <Text bold='bold' size='2rem'>
           {title}
@@ -146,4 +165,5 @@ function Auth(props) {
   );
 }
 
-export default Auth;
+// export default Auth;
+export default React.memo(Auth);

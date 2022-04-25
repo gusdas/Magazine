@@ -22,14 +22,13 @@ function FeedTemplate() {
     if (!last) {
       dispatch(PostAction.getPostsAPI(currentPage));
     }
-
     const token = sessionStorage.getItem('token');
     if (token) {
       const { username } = jwt_decode(token);
       setId(username);
     }
   }, [posts]);
-
+  console.log(posts);
   // const [post, setPost] = useState('');
   // useEffect(() => {
   //   const getPost = async () => {
@@ -52,7 +51,6 @@ function FeedTemplate() {
       >
         다음 데이터가져오기
       </button>
-
       {posts.map((l, index) => (
         <div key={index}>
           <FeedHeader
@@ -67,6 +65,7 @@ function FeedTemplate() {
             likeCnt={l.likeCount}
             picture={l.picture}
             postId={l.postId}
+            index={index}
           ></FeedArea>
         </div>
       ))}
@@ -83,3 +82,4 @@ function FeedTemplate() {
 }
 
 export default FeedTemplate;
+// export default React.memo(FeedTemplate);

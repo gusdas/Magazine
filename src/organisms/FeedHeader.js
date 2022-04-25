@@ -53,4 +53,5 @@ function FeedHeader({ nickname, time, userId, postId }) {
   );
 }
 
-export default FeedHeader;
+// export default FeedHeader;
+export default React.memo(FeedHeader);

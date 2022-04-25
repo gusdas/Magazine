@@ -9,4 +9,5 @@ function EditTemplate() {
   );
 }
 
-export default EditTemplate;
+// export default EditTemplate;
+export default React.memo(EditTemplate);

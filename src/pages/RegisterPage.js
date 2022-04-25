@@ -24,4 +24,5 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+// export default RegisterPage;
+export default React.memo(RegisterPage);

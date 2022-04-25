@@ -10,4 +10,5 @@ const StyledDiv = styled.div`
   justify-content: center;
   align-items: center;
 `;
-export default FlexDiv;
+// export default FlexDiv;
+export default React.memo(FlexDiv);

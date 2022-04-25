@@ -10,4 +10,5 @@ function AlertTemplate(props) {
   );
 }
 
-export default AlertTemplate;
+// export default AlertTemplate;
+export default React.memo(AlertTemplate);

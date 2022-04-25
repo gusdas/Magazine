@@ -9,4 +9,5 @@ function EditPage(props) {
   );
 }
 
-export default EditPage;
+// export default EditPage;
+export default React.memo(EditPage);

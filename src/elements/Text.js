@@ -22,4 +22,5 @@ const P = styled.p`
   color: ${(props) => props.color};
   margin: ${(props) => props.margin};
 `;
-export default Text;
+// export default Text;
+export default React.memo(Text);

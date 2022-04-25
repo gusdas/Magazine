@@ -198,4 +198,5 @@ function TestPage(props) {
   );
 }
 
-export default TestPage;
+// export default TestPage;
+export default React.memo(TestPage);

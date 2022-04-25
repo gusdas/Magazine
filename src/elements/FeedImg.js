@@ -19,4 +19,5 @@ const Img = styled.img`
       : { width: '180px', height: '90px', marginRigft: '1rem' }}
   overflow: 'hidden';
 `;
-export default FeedImg;
+// export default FeedImg;
+export default React.memo(FeedImg);

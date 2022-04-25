@@ -39,4 +39,5 @@ const StyledArea = styled.textarea`
   }
 `;
 
-export default TextArea;
+// export default TextArea;
+export default React.memo(TextArea);

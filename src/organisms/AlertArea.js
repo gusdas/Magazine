@@ -17,4 +17,5 @@ function AlertArea(props) {
   );
 }
 
-export default AlertArea;
+// export default AlertArea;
+export default React.memo(AlertArea);

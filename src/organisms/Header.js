@@ -17,6 +17,8 @@ const Header = (props) => {
   const navigate = useNavigate();
 
   const onLogout = () => {
+    sessionStorage.removeItem('ip');
+
     dispatch(
       userActions.logoutAPI(() => {
         navigate('/');
@@ -80,4 +82,4 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

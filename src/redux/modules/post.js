@@ -27,14 +27,12 @@ const deletePost = createAction(DELETE_POST, (postId) => ({
   postId,
 }));
 
-const likePost = createAction(LIKE_POST, (postId, isLike) => ({
+const likePost = createAction(LIKE_POST, (postId) => ({
   postId,
-  isLike,
 }));
 
-const likeDeletePost = createAction(LIKE_DELETE_POST, (postId, isLike) => ({
+const likeDeletePost = createAction(LIKE_DELETE_POST, (postId) => ({
   postId,
-  isLike,
 }));
 // initialState
 const initialState = {
@@ -101,27 +99,27 @@ const deletePostAPI = (postId) => {
 };
 
 //포스트 좋아요
-const likePostAPI = (postId, isLike) => {
+const likePostAPI = (postId) => {
   return async function (dispatch, getState) {
     const result = await axiosFunc.LikeAxios(postId);
 
     console.log(result);
 
     if (result) {
-      dispatch(likePost(postId, isLike));
+      dispatch(likePost(postId));
     }
   };
 };
 
 //포스트 좋아요삭제
-const likeDeletePostAPI = (postId, isLike) => {
+const likeDeletePostAPI = (postId) => {
   return async function (dispatch, getState) {
     const result = await axiosFunc.LikeDeleteAxios(postId);
 
     console.log(result);
 
     if (result) {
-      dispatch(likeDeletePost(postId, isLike));
+      dispatch(likeDeletePost(postId));
     }
   };
 };
@@ -161,7 +159,7 @@ export default handleActions(
           (p) => p.postId === parseInt(action.payload.postId)
         );
 
-        draft.posts[idx].like = action.payload.isLike;
+        draft.posts[idx].like = true;
         draft.posts[idx].likeCount = draft.posts[idx].likeCount + 1;
       }),
 
@@ -171,7 +169,7 @@ export default handleActions(
           (p) => p.postId === parseInt(action.payload.postId)
         );
 
-        draft.posts[idx].like = action.payload.isLike;
+        draft.posts[idx].like = false;
         draft.posts[idx].likeCount = draft.posts[idx].likeCount - 1;
       }),
   },

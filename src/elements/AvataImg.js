@@ -24,4 +24,5 @@ const CircleImg = styled.img`
   overflow: hidden;
 `;
 
-export default AvataImg;
+// export default AvataImg;
+export default React.memo(AvataImg);

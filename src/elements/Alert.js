@@ -19,4 +19,6 @@ const StyledDiv = styled.div`
   left: 70%;
   top: 0%;
 `;
-export default Alert;
+// export default Alert;
+
+export default React.memo(Alert);

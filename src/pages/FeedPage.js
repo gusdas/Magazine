@@ -16,4 +16,5 @@ function FeedPage(props) {
   );
 }
 
-export default FeedPage;
+// export default FeedPage;
+export default React.memo(FeedPage);

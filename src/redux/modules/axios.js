@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { ip } from '../../common/ip';
+// import { ip } from '../../common/ip';
+
+const ip = sessionStorage.getItem('ip');
 
 //인스턴스 생성
 const apiClicent = axios.create({
@@ -63,6 +65,7 @@ const logoutAxios = async () => {
 //------------------------게시글-----------------------//
 //게시글 목록 전체 조회
 const postsAxios = async (currentPage) => {
+  console.log(currentPage);
   apiClicent.defaults.headers.common['Authorization'] =
     sessionStorage.getItem('token');
 

@@ -1,11 +1,11 @@
 import { createAction, handleActions } from 'redux-actions';
 import { produce } from 'immer';
 import { axiosFunc } from './axios';
+import { actionCreators as PostAction } from './post';
 
 // actions
 const LOG_OUT = 'LOG_OUT';
 const SET_USER = 'SET_USER';
-
 // action creators
 const logOut = createAction(LOG_OUT, () => ({}));
 const setUser = createAction(SET_USER, (user) => ({ user }));
@@ -38,6 +38,8 @@ const loginAPI = (id, pw, navigate) => {
           isLogin: true,
         })
       );
+
+      dispatch(PostAction.getPostsAPI(getState().post.nextPage));
       navigate();
     }
   };
@@ -49,6 +51,7 @@ const logoutAPI = (navigate) => {
     // const result = axiosFunc.loginAxios(id, pw);
     sessionStorage.removeItem('token');
     axiosFunc.logoutAxios();
+    dispatch(PostAction.getPostsAPI(getState().post.nextPage));
     dispatch(logOut());
     navigate();
   };

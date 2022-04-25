@@ -123,4 +123,5 @@ function EditArea() {
   );
 }
 
-export default EditArea;
+// export default EditArea;
+export default React.memo(EditArea);

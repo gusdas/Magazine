@@ -6,23 +6,19 @@ import Grid from '../elements/Grid';
 import Like from '../elements/Like';
 import FlexGrid from '../elements/FlexGrid';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators as PostAction } from '../redux/modules/post';
 
-function FeedArea({ content, isLike, likeCnt, picture, postId }) {
+function FeedArea({ content, isLike, likeCnt, picture, postId, index }) {
   const src = `data:image/jpeg;base64,${picture}`;
   const dispatch = useDispatch();
-  const [like, setLike] = useState(isLike);
-
-  useEffect(() => {
-    setLike(isLike);
-  }, [isLike]);
+  const posts = useSelector((state) => state.post.posts);
 
   const handleLike = (postId) => {
     if (isLike) {
-      dispatch(PostAction.likeDeletePostAPI(postId, !isLike));
+      dispatch(PostAction.likeDeletePostAPI(postId));
     } else {
-      dispatch(PostAction.likePostAPI(postId, !isLike));
+      dispatch(PostAction.likePostAPI(postId));
     }
   };
 
@@ -40,11 +36,12 @@ function FeedArea({ content, isLike, likeCnt, picture, postId }) {
           </Text>
         </div>
         <div>
-          <Like _onClick={() => handleLike(postId)} isLike={like}></Like>
+          <Like _onClick={() => handleLike(postId)} isLike={isLike}></Like>
         </div>
       </FlexGrid>
     </Grid>
   );
 }
 
-export default FeedArea;
+// export default FeedArea;
+export default React.memo(FeedArea);

@@ -30,4 +30,5 @@ const StyledDiv = styled.div`
     margin-left: ${(props) => (props.hasChild ? '1rem' : '')};
   }
 `;
-export default FlexGrid;
+// export default FlexGrid;
+export default React.memo(FlexGrid);
