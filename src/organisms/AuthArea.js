@@ -6,7 +6,7 @@ import Text from '../elements/Text';
 import Input from '../elements/Input';
 import Button from '../elements/Button';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators as UserAction } from '../redux/modules/user';
 
 import { axiosFunc } from '../redux/modules/axios';
@@ -28,8 +28,11 @@ function Auth(props) {
   const pw = useRef();
   const userName = useRef();
   const checkPw = useRef();
-  const IP = useRef();
   const [userIP, setUserIP] = useState(sessionStorage.getItem('ip'));
+
+  React.useEffect(() => {
+    setUserIP(sessionStorage.getItem('ip'));
+  }, []);
   const onLogin = () => {
     if (userId.current.value === '' || pw.current.value === '') {
       window.alert('아이디, 패스워드를 모두 입력해주세요!');
@@ -75,26 +78,50 @@ function Auth(props) {
     );
   };
 
-  const handleIPCheck = () => {
-    sessionStorage.setItem('ip', IP.current.value);
-    setUserIP(IP.current.value);
+  const handleIP = (seq) => {
+    if (seq === 1) {
+      //현웅
+      sessionStorage.setItem('ip', 'http://15.164.221.8/api');
+    } else if (seq === 2) {
+      //수민
+      sessionStorage.setItem('ip', 'http://13.125.207.199/api');
+    } else if (seq === 3) {
+      //동현
+      sessionStorage.setItem('ip', 'http://3.34.136.55/api');
+    }
   };
   return (
     <React.Fragment>
-      <Input
-        title='IP'
-        placeholder='IP입력(http://00.00.00.00/api)'
-        _ref={IP}
-      ></Input>
+      <div>버튼 클릭 &gt; 새로고침 &gt; 확인가능</div>
+      <div>세션스토리지확인</div>
       <Button
         bgColor='black'
+        margin='10px'
         _onClick={() => {
-          handleIPCheck();
+          handleIP(1);
         }}
       >
-        꼭 IP입력 먼저 하고 누르고 새로고침하면 IP세팅됌
+        이현웅 IP세팅
       </Button>
-      <div>입력된 값 : {userIP}</div>
+      <Button
+        margin='10px'
+        bgColor='black'
+        _onClick={() => {
+          handleIP(2);
+        }}
+      >
+        이수민 IP세팅
+      </Button>
+      <Button
+        margin='10px'
+        bgColor='black'
+        _onClick={() => {
+          handleIP(3);
+        }}
+      >
+        고동현 IP세팅
+      </Button>
+      <div> 입력된 값 : {userIP}</div>
       <Grid height='calc(100% - 5.35rem)' padding='1rem'>
         <Text bold='bold' size='2rem'>
           {title}

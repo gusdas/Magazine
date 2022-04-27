@@ -17,7 +17,7 @@ function FeedTemplate() {
   const last = useSelector((state) => state.post.last);
   const posts = useSelector((state) => state.post.posts);
   const currentPage = useSelector((state) => state.post.nextPage);
-
+  const isLogin = useSelector((state) => state.user.isLogin);
   useEffect(() => {
     if (!last) {
       dispatch(PostAction.getPostsAPI(currentPage));
@@ -27,7 +27,7 @@ function FeedTemplate() {
       const { username } = jwt_decode(token);
       setId(username);
     }
-  }, [posts]);
+  }, [isLogin, last, dispatch, currentPage]);
   console.log(posts);
   // const [post, setPost] = useState('');
   // useEffect(() => {
@@ -38,7 +38,6 @@ function FeedTemplate() {
   //   getPost();
   //   return () => {};
   // }, []);
-  // console.log(post);
 
   return (
     <React.Fragment>

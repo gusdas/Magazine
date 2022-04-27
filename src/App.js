@@ -25,6 +25,7 @@ function App() {
           <Route element={<ModifyPage />} path='/modify/:postId' />
           <Route element={<AlertPage />} path='/alert' />
           <Route element={<TestPage />} path='/test' />
+          <Route element={<TestPage />} path='/kakaoLogin/:code' />
         </Routes>
       </Container>
     </Wrapper>

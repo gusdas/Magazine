@@ -59,7 +59,6 @@ const getPostsAPI = (currentPage) => {
 const getPostAPI = async (pageId) => {
   return await (async function (dispatch, getState) {
     const result = await axiosFunc.postAxios(pageId);
-    console.log(result);
     return result;
   })();
 };
@@ -68,7 +67,6 @@ const getPostAPI = async (pageId) => {
 const addPostAPI = (picture, content) => {
   return async function (dispatch, getState) {
     const result = await axiosFunc.postWriteAxios(picture, content);
-    console.log(result);
 
     if (result) {
       dispatch(addPost(result));
@@ -129,7 +127,7 @@ export default handleActions(
   {
     [SET_POST]: (state, action) =>
       produce(state, (draft) => {
-        draft.posts.push(...action.payload.posts);
+        draft.posts = action.payload.posts;
         draft.last = action.payload.last;
         draft.nextPage = action.payload.nextPage + 1;
       }),

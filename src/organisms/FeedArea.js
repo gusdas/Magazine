@@ -21,7 +21,7 @@ function FeedArea({ content, isLike, likeCnt, picture, postId, index }) {
       dispatch(PostAction.likePostAPI(postId));
     }
   };
-
+  console.log(isLike);
   return (
     <Grid>
       <FeedImg src={src}></FeedImg>

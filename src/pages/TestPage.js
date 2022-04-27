@@ -9,7 +9,9 @@ import { axiosFunc } from '../redux/modules/axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators as PostAction } from '../redux/modules/post';
 
+import { useParams } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
+
 function TestPage(props) {
   const dispatch = useDispatch();
 
@@ -104,6 +106,22 @@ function TestPage(props) {
     console.log(a);
   };
 
+  const onChkOAUTH = async (postId) => {
+    const result = await axiosFunc.OAUTHAxios();
+
+    console.log(result);
+  };
+
+  //카카오
+  const { Kakao } = window;
+  const loginWithKakao = () => {
+    Kakao.Auth.authorize({
+      // redirectUri: 'http://localhost:3000/test',
+      redirectUri: 'http://15.164.221.8/login/oauth2/code/Kakao',
+    });
+  };
+  const code = useParams();
+  console.log(code);
   return (
     <Grid padding='10px'>
       <Grid margin='10px'>
@@ -193,6 +211,18 @@ function TestPage(props) {
         >
           토큰확인하기
         </Button>
+      </Grid>
+      <Grid margin='10px'>
+        <Button
+          // bgColor='black'
+          _onClick={loginWithKakao}
+        >
+          OAUTH테스트
+        </Button>
+        {/* <div>값={code}</div> */}
+        <a href='http://15.164.221.8/oauth2/authorization/Kakao'>가보자아</a>
+
+        <Button _onClick={axiosFunc.OAUTHAxios}>OAUTH axios테스트</Button>
       </Grid>
     </Grid>
   );

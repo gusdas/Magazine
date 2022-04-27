@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { ip } from '../../common/ip';
+// import { ip } from '../../common/ip';
+import { useSelector } from 'react-redux';
 
-// const ip = sessionStorage.getItem('ip');
+const ip = sessionStorage.getItem('ip');
 
 //인스턴스 생성
 const apiClicent = axios.create({
@@ -34,7 +35,7 @@ const loginAxios = async (id, pw) => {
   apiClicent.defaults.headers['Content-Type'] = 'application/json';
   try {
     const res = await apiClicent.post('login', jsonData);
-    console.log(res);
+
     if (res.status === 200) {
       // 서버에서 Access-Control-Expose-Headers: Authorization 허용해야
       // 클라이언트에서 authorization을 가져올 수 있음
@@ -65,14 +66,13 @@ const logoutAxios = async () => {
 //------------------------게시글-----------------------//
 //게시글 목록 전체 조회
 const postsAxios = async (currentPage) => {
-  console.log(currentPage);
   apiClicent.defaults.headers.common['Authorization'] =
     sessionStorage.getItem('token');
 
   try {
     // const res = await apiClicent.get(`posts?page=${currentPage}&size=3`);
     const res = await apiClicent.get('posts');
-    console.log(res);
+
     if (res.status === 200) {
       const sendData = {
         last: res.data.posts.last,
@@ -188,6 +188,18 @@ const LikeDeleteAxios = async (postId) => {
   }
 };
 
+//OAUTH 테스트
+const OAUTHAxios = () => {
+  try {
+    const res = axios.get('http://15.164.221.8/oauth2/authorization/Kakao');
+    // window.location.href('http://15.164.221.8/oauth2/authorization/Kakao');
+    console.log(res);
+  } catch (error) {
+    console.error(error);
+    alert('OATUH실패');
+  }
+};
+
 const axiosFunc = {
   registerAxios,
   loginAxios,
@@ -199,6 +211,7 @@ const axiosFunc = {
   postDeleteAxios,
   LikeAxios,
   LikeDeleteAxios,
+  OAUTHAxios,
 };
 
 export { axiosFunc };
